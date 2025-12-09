@@ -35,6 +35,9 @@ function App() {
 
   // Mouse tracking for parallax and custom cursor
   useEffect(() => {
+    // Hide default cursor only when React mounts successfully
+    document.body.style.cursor = 'none';
+
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
       
@@ -54,7 +57,10 @@ function App() {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.body.style.cursor = 'auto'; // Restore cursor on unmount
+    };
   }, []);
 
   return (
